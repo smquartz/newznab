@@ -1,6 +1,13 @@
 package xml
 
-import "time"
+import (
+	"encoding/xml"
+	"strconv"
+	"strings"
+	"time"
+
+	"github.com/smquartz/errors"
+)
 
 // Capabilities describes the "capabilities" of a newznab indexer; it describes
 // the output of the t=caps command, which returns information such as details
@@ -10,7 +17,7 @@ type Capabilities struct {
 	// it indexes
 	Server CapabilitiesServer `xml:"server"`
 	// describes the limits imposed on searches
-	Limits CapabilitiesLimits `xmL:"limits"`
+	Limits CapabilitiesLimits `xml:"limits"`
 	// describes how long NZBs/whatever else are retained by an indexer before
 	// being deleted
 	Retention CapabilitiesRetention `xml:"retention"`
@@ -36,6 +43,24 @@ type Capabilities struct {
 // SearchCapabilities describes whether a particular kind of search is supported
 type SearchCapabilities struct {
 	Available bool `xml:"available,attr"`
+}
+
+// UnmarshalXML enables the unmarshalling of XML into SearchCapabilities
+func (sc *SearchCapabilities) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var search struct {
+		Available string `xml:"available,attr"`
+	}
+	err := d.DecodeElement(&search, &start)
+	if err != nil {
+		return errors.Wrapf(err, "unable to parse searching element", 1)
+	}
+
+	sc.Available, err = parseYesNoBool(search.Available)
+	if err != nil {
+		return errors.Wrapf(err, "unable to parse available attribute: %s", 1, search.Available)
+	}
+
+	return nil
 }
 
 // CapabilitiesServer describes an indexer itself
@@ -74,18 +99,51 @@ type CapabilitiesRegistration struct {
 	Open      bool `xml:"open,attr"`
 }
 
+func parseYesNoBool(str string) (bool, error) {
+	str2 := strings.ToLower(str)
+	str2 = strings.Replace(str2, "yes", "true", -1)
+	str2 = strings.Replace(str2, "no", "false", -1)
+	return strconv.ParseBool(str2)
+}
+
+// UnmarshalXML enables the unmarshalling of XML into CapabilitiesRegistration
+func (cr *CapabilitiesRegistration) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
+	var reg struct {
+		Available string `xml:"available,attr"`
+		Open      string `xml:"open,attr"`
+	}
+	err := d.DecodeElement(&reg, &start)
+	if err != nil {
+		return errors.Wrapf(err, "unable to parse registration element", 1)
+	}
+
+	cr.Available, err = parseYesNoBool(reg.Available)
+	if err != nil {
+		return errors.Wrapf(err, "unable to parse available attribute: %s", 1, reg.Available)
+	}
+
+	cr.Open, err = parseYesNoBool(reg.Open)
+	if err != nil {
+		return errors.Wrapf(err, "unable to parse open attribute: %s", 1, reg.Open)
+	}
+
+	return nil
+}
+
 // CapabilitiesSearching describes what kinds of searches may be executed
 // against an indexer
 type CapabilitiesSearching struct {
-	Search      SearchCapabilities `xml:"search"`
-	TVSearch    SearchCapabilities `xml:"tv-search"`
-	MovieSearch SearchCapabilities `xml:"movie-search"`
+	Search SearchCapabilities `xml:"search"`
+	TV     SearchCapabilities `xml:"tv-search"`
+	Movie  SearchCapabilities `xml:"movie-search"`
+	Audio  SearchCapabilities `xml:"audio-search"`
 }
 
 // CapabilitiesCategory describes an individual category indexed by an indexer
 type CapabilitiesCategory struct {
-	ID   int    `xml:"id,attr"`
-	Name string `xml:"name,attr"`
+	ID            int                    `xml:"id,attr"`
+	Name          string                 `xml:"name,attr"`
+	Subcategories []CapabilitiesCategory `xml:"subcat"`
 }
 
 // CapabilitiesGroup describes an individual usenet group indexed by an indexer

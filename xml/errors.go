@@ -17,9 +17,9 @@ const (
 // Error describes a parsed newznab error
 type Error struct {
 	// the error code
-	Code int
+	Code int `xml:"code,attr"`
 	// the error text
-	Description string
+	Description string `xml:"description,attr"`
 }
 
 // Error implements the error interface for the Error type
