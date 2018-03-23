@@ -30,3 +30,21 @@ var (
 	ErrUnknownError                        = NError{Code: 900, Description: "Unknown error"}
 	ErrAPIDisabled                         = NError{Code: 910, Description: "API Disabled"}
 )
+
+var nerrors = map[int]NError{
+	100: ErrIncorrectUserCredentials,
+	101: ErrAccountSuspended,
+	102: ErrInsufficientPrivilegesNotAuthorized,
+	103: ErrRegistrationDenied,
+	104: ErrRegistrationsClosed,
+	105: ErrInvalidRegistrationEmailTaken,
+	106: ErrInvalidRegistrationBadEmail,
+	107: ErrRegistrationFailedDataError,
+	200: ErrMissingParameter,
+	201: ErrIncorrectParameter,
+	202: ErrNoSuchFunction,
+	203: ErrFunctionNotAvailable,
+	300: ErrNoSuchItem,
+	900: ErrUnknownError,
+	910: ErrAPIDisabled,
+}
