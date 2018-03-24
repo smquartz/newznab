@@ -4,7 +4,6 @@ import (
 	"encoding/xml"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/smquartz/errors"
 )
@@ -27,17 +26,11 @@ type Capabilities struct {
 	// describes what kinds of searches may be executed against an indexer
 	Searching CapabilitiesSearching `xml:"searching"`
 	// describes the newznab categories indexed by an indexer
-	Categories struct {
-		Categories []CapabilitiesCategory `xml:"category"`
-	} `xml:"categories"`
+	Categories []CapabilitiesCategory `xml:"categories>category"`
 	// describes the usenet groups indexed by an indexer
-	Groups struct {
-		Groups []CapabilitiesGroup `xml:"group"`
-	} `xml:"groups"`
+	Groups []CapabilitiesGroup `xml:"groups>group"`
 	// describes the genres indexed by an indexer
-	Genres struct {
-		Genres []CapabilitiesGenre `xml:"genre"`
-	} `xml:"genres"`
+	Genres []CapabilitiesGenre `xml:"genres>genre"`
 }
 
 // SearchCapabilities describes whether a particular kind of search is supported
@@ -133,10 +126,10 @@ func (cr *CapabilitiesRegistration) UnmarshalXML(d *xml.Decoder, start xml.Start
 // CapabilitiesSearching describes what kinds of searches may be executed
 // against an indexer
 type CapabilitiesSearching struct {
-	Search SearchCapabilities `xml:"search"`
-	TV     SearchCapabilities `xml:"tv-search"`
-	Movie  SearchCapabilities `xml:"movie-search"`
-	Audio  SearchCapabilities `xml:"audio-search"`
+	General SearchCapabilities `xml:"search"`
+	TV      SearchCapabilities `xml:"tv-search"`
+	Movie   SearchCapabilities `xml:"movie-search"`
+	Audio   SearchCapabilities `xml:"audio-search"`
 }
 
 // CapabilitiesCategory describes an individual category indexed by an indexer
@@ -148,10 +141,9 @@ type CapabilitiesCategory struct {
 
 // CapabilitiesGroup describes an individual usenet group indexed by an indexer
 type CapabilitiesGroup struct {
-	Name             string     `xml:"name,attr"`
-	Description      string     `xml:"description,attr"`
-	LastUpdate       string     `xml:"lastupdate,attr"`
-	LastUpdateParsed *time.Time `xml:"-"`
+	Name        string `xml:"name,attr"`
+	Description string `xml:"description,attr"`
+	LastUpdate  Time   `xml:"lastupdate,attr"`
 }
 
 // CapabilitiesGenre describes an individual genre that is indexed by an

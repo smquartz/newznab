@@ -37,8 +37,8 @@ func TestCapabilitiesUnmarshalling(t *testing.T) {
 	if capabilities.Registration.Open != false {
 		t.Errorf("Wrong registration open: %v", capabilities.Registration.Open)
 	}
-	if capabilities.Searching.Search.Available != true {
-		t.Errorf("Wrong searching search available: %v", capabilities.Searching.Search.Available)
+	if capabilities.Searching.General.Available != true {
+		t.Errorf("Wrong searching search available: %v", capabilities.Searching.General.Available)
 	}
 	if capabilities.Searching.TV.Available != true {
 		t.Errorf("Wrong searching tv-search available: %v", capabilities.Searching.TV.Available)
@@ -68,14 +68,14 @@ func TestCapabilitiesUnmarshalling(t *testing.T) {
 			CapabilitiesCategory{ID: 8020, Name: "Comics"},
 		}},
 	}
-	if !reflect.DeepEqual(capabilities.Categories.Categories, expectedCategories) {
-		t.Errorf("Wrong categories: got %v", capabilities.Categories.Categories)
+	if !reflect.DeepEqual(capabilities.Categories, expectedCategories) {
+		t.Errorf("Wrong categories: got %v", capabilities.Categories)
 	}
 
-	if len(capabilities.Groups.Groups) != 0 {
-		t.Errorf("Wrong numbebr of groups: %d", len(capabilities.Groups.Groups))
+	if len(capabilities.Groups) != 0 {
+		t.Errorf("Wrong numbebr of groups: %d", len(capabilities.Groups))
 	}
-	if len(capabilities.Genres.Genres) != 0 {
-		t.Errorf("Wrong number of genres: %d", len(capabilities.Genres.Genres))
+	if len(capabilities.Genres) != 0 {
+		t.Errorf("Wrong number of genres: %d", len(capabilities.Genres))
 	}
 }
