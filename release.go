@@ -1,4 +1,4 @@
-package entry
+package newznab
 
 // Release describes a "release", with specific meaning
 // this will be moved to its own package at some point for release name parsing

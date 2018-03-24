@@ -1,4 +1,4 @@
-package entry
+package newznab
 
 import (
 	"net/url"
@@ -15,11 +15,11 @@ type File interface {
 	// returns whether the contents require a password to access
 	Passworded() bool
 	// sets whether the contents require a password to access
-	SetPassworded(bool)
+	setPassworded(bool)
 	// returns a URL from which the raw File may be downloaded from
 	URL() *url.URL
-	// sets the URL value from which the raw File may be downloaded
-	SetURL(*url.URL)
+	// sets the URL from which the raw File may be downloaded
+	setURL(*url.URL)
 	// returns the raw bytes for descriptor file
 	Bytes() ([]byte, error)
 }

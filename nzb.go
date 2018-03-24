@@ -1,4 +1,4 @@
-package entry
+package newznab
 
 import (
 	"net/url"
@@ -21,8 +21,8 @@ func (n NZB) URL() *url.URL {
 	return n.downloadURL
 }
 
-// SetURL sets the URL from which the raw NZB file may be downloaded
-func (n *NZB) SetURL(u *url.URL) {
+// setURL sets the URL where the raw NZB file may be downloaded from
+func (n *NZB) setURL(u *url.URL) {
 	n.downloadURL = u
 }
 
@@ -32,9 +32,8 @@ func (n NZB) Passworded() bool {
 	return n.passworded
 }
 
-// SetPassworded sets whether the contents of the NZB File require a password
-// to access
-func (n *NZB) SetPassworded(b bool) {
+// setPassworded sets whether the contents of a NZB file require a password to access
+func (n *NZB) setPassworded(b bool) {
 	n.passworded = b
 }
 

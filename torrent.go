@@ -1,4 +1,4 @@
-package entry
+package newznab
 
 import (
 	"bytes"
@@ -40,8 +40,8 @@ func (t Torrent) Passworded() bool {
 	return t.passworded
 }
 
-// SetPassworded sets whether the contents of the torrent require a password to access
-func (t *Torrent) SetPassworded(b bool) {
+// setPassworded sets whether the contents of a torrent file require a password to access
+func (t *Torrent) setPassworded(b bool) {
 	t.passworded = b
 }
 
@@ -60,7 +60,7 @@ func (t Torrent) URL() *url.URL {
 	return t.downloadURL
 }
 
-// SetURL sets the URL from which the raw torrent file may be downloaded
-func (t *Torrent) SetURL(u *url.URL) {
+// setURL sets the URL where the raw torrent file may be downloaded from
+func (t *Torrent) setURL(u *url.URL) {
 	t.downloadURL = u
 }

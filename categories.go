@@ -1,4 +1,4 @@
-package entry
+package newznab
 
 // Category defines a category defined by the newznab spec
 type Category struct {

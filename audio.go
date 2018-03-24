@@ -1,4 +1,4 @@
-package entry
+package newznab
 
 // Music describes the music contained within a newznab entry
 type Music struct {

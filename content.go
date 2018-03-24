@@ -1,4 +1,4 @@
-package entry
+package newznab
 
 // Content describes the content of an newznab entry; that is, what is actually
 // in the files
