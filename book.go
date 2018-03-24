@@ -6,8 +6,6 @@ import (
 
 // Book describes the book contained within a newznab entry
 type Book struct {
-	// embed general information
-	GenericContent
 	// embed common information
 	MusicBook
 

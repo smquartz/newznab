@@ -26,8 +26,8 @@ func (t Torrent) Size() int64 {
 	return info.TotalLength()
 }
 
-// Files returns the total number of files in the torrent
-func (t Torrent) Files() int64 {
+// NumFiles returns the total number of files in the torrent
+func (t Torrent) NumFiles() int {
 	info, err := t.UnmarshalInfo()
 	if err != nil {
 		return -1
@@ -38,6 +38,11 @@ func (t Torrent) Files() int64 {
 // Passworded returns whether the contents of the torrent file require a password to access
 func (t Torrent) Passworded() bool {
 	return t.passworded
+}
+
+// SetPassworded sets whether the contents of the torrent require a password to access
+func (t *Torrent) SetPassworded(b bool) {
+	t.passworded = b
 }
 
 // Bytes returns the raw bytes of the torrent file
@@ -53,4 +58,9 @@ func (t Torrent) Bytes() ([]byte, error) {
 // URL returns a URL where the raw torrent file may be downloaded from
 func (t Torrent) URL() *url.URL {
 	return t.downloadURL
+}
+
+// SetURL sets the URL from which the raw torrent file may be downloaded
+func (t *Torrent) SetURL(u *url.URL) {
+	t.downloadURL = u
 }

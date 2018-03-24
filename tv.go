@@ -4,8 +4,6 @@ import "time"
 
 // TV describes the television content contained within an entry
 type TV struct {
-	// embed general content information
-	GenericContent
 	// embed common information
 	TVMovie
 	// season number

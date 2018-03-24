@@ -2,8 +2,6 @@ package entry
 
 // Music describes the music contained within a newznab entry
 type Music struct {
-	// embed general information
-	GenericContent
 	// embed common information
 	TVMovieMusic
 	// embed common information
